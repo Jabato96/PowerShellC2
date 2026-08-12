@@ -17,7 +17,6 @@ IV = b"1234567890123456"
 
 def encrypt_message(data):
     cipher = AES.new(KEY, AES.MODE_CBC, IV)
-    # Mejor usar bytes directamente para el padding matemático
     data_bytes = data.encode('utf-8')
     padding_len = 16 - (len(data_bytes) % 16)
     padded_data = data_bytes + bytes([padding_len]) * padding_len
@@ -49,7 +48,6 @@ def send_task():
 
 @app.route('/results', methods=['POST'])
 def receive_results():
-    # get_data() fuerza la lectura cruda independientemente del Content-Type
     encrypted_result = request.get_data(as_text=True)
     decrypted_result = decrypt_message(encrypted_result)
 
